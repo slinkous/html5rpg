@@ -1,7 +1,7 @@
 import InputHandler from "./input.js";
 import Player from "./player.js";
 import Sprite from "./sprite.js"
-import TileMap from "./tile.js"
+import {map1, Map} from "./tile.js"
 
 export const GAMESTATE = {
   PAUSED: 0,
@@ -21,7 +21,7 @@ export class Game {
     this.input = new InputHandler(this);
 
     this.player = new Player(this)
-
+    this.map = new Map(map1);
   }
 
   start(){
@@ -40,13 +40,14 @@ export class Game {
     this.input.update();
 
     this.player.move(this.input.inputStates)
-    console.log(this.player.x, this.player.y)
+
   }
   draw(ctx, colorScheme, font){
 
     ctx.save();
-    ctx.fillStyle = colorScheme[6];
-    ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+    // ctx.fillStyle = colorScheme[6];
+    // ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+    this.map.render(ctx, colorScheme);
     ctx.restore();
     this.player.draw(ctx)
 

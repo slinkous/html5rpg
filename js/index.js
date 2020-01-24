@@ -1,5 +1,26 @@
 import {Game} from "./game.js"
 
+//https://lospec.com/palette-list/na16
+const colorScheme = [
+  "#8c8fae",
+  "#584563",
+  "#3e2137",
+  "#9a6348",
+  "#d79b7d",
+  "#f5edba",
+  "#c0c741",
+  "#647d34",
+  "#e4943a",
+  "#9d303b",
+  "#d26471",
+  "#70377f",
+  "#7ec4c1",
+  "#34859d",
+  "#17434b",
+  "#1f0e1c",
+]
+
+
 //https://lospec.com/palette-list/nyx8
 // const colorScheme = [
 //  "#08141E", //black
@@ -25,16 +46,16 @@ import {Game} from "./game.js"
 // ]
 
 //https://lospec.com/palette-list/ammo-8
-const colorScheme = [
- "#040c06", //black
-  "#112318", //dark
-  "#1e3a29", //dark-medium cool
-  "#305d42", //dark-medium warm
-  "#4d8061", //medium
-  "#89a257", //medium-light
-  "#bedc7f", //light
-  "#eeffcc" //white
-]
+// const colorScheme = [
+//  "#040c06", //black
+//   "#112318", //dark
+//   "#1e3a29", //dark-medium cool
+//   "#305d42", //dark-medium warm
+//   "#4d8061", //medium
+//   "#89a257", //medium-light
+//   "#bedc7f", //light
+//   "#eeffcc" //white
+// ]
 
 
 const font = "DPComic";
