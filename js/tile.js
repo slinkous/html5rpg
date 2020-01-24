@@ -29,6 +29,7 @@ export class Map {
     this.cols = mapInfo.cols;
     this.tileSize = mapInfo.tileSize;
     this.tiles = mapInfo.tiles;
+    this.tileSheet = document.querySelector('#tilesheet')
   }
   getTile(col, row){
     return this.tiles[row*this.cols + col]
@@ -36,28 +37,72 @@ export class Map {
   render(ctx, colorScheme){
     for(let c=0; c<this.cols; c++){
       for(let r=0; r<this.rows; r++){
-        let color;
-        switch(this.getTile(c, r)){
-          case 0:
-            color = 5;
-            break;
-          case 1:
-            color = 3;
-            break;
-          case 2:
-            color = 13;
-            break;
-          case 3:
-            color = 6;
-            break;
-          default:
-            color = 0;
-            break;
-        }
-        ctx.fillStyle= colorScheme[color];
+        let tileType = this.getTile(c, r)
+        let imgPos = this.getTileSheetPos(tileType)
+        ctx.fillStyle= colorScheme[this.getColor(tileType)];
         ctx.fillRect(c*this.tileSize, r*this.tileSize, this.tileSize, this.tileSize)
+
+        ctx.drawImage(
+          this.tileSheet, //image
+          imgPos.x, //source x
+          imgPos.y, // source y
+          16, //image sprite size
+          16, //image sprite size
+          c*this.tileSize, //canvas sprite location
+          r*this.tileSize, //canvas sprite location
+          this.tileSize, //canvas sprite size
+          this.tileSize) //canvas sprite size
       }
     }
+  }
+  getColor(tileType){
+    let color;
+    switch(tileType){
+      case 0:
+        color = 5;
+        break;
+      case 1:
+        color = 3;
+        break;
+      case 2:
+        color = 13;
+        break;
+      case 3:
+        color = 6;
+        break;
+      default:
+        color = 0;
+        break;
+    }
+    return color;
+  }
+  getTileSheetPos(tileType){
+    let position = {};
+    switch(tileType){
+      case 0:
+        position.row = 0;
+        position.col = 5;
+        break;
+      case 1:
+        position.row = 0;
+        position.col = 2;
+        break;
+      case 2:
+        position.row = 5;
+        position.col = 8;
+        break;
+      case 3:
+        position.row = 1;
+        position.col = 0;
+        break;
+      default:
+        position.row = 0;
+        position.col = 0;
+        break;
+    }
+    position.x = position.col*17;
+    position.y = position.row*17;
+    return position;
   }
   getCollision(row, col){
     switch(getTile(row, column)){
