@@ -31,13 +31,27 @@ export class Map {
     this.tiles = mapInfo.tiles;
     this.tileSheet = document.querySelector('#tilesheet')
   }
-  getTile(col, row){
+  tileType(col, row){
     return this.tiles[row*this.cols + col]
+  }
+  getCoordsbyGrid(col, row){
+    let x = col*this.tileSize;
+    let y = row*this.tileSize;
+    return {x: x, y: y};
+  }
+  getGridByCoords(x, y){
+    let col = Math.floor(x/this.tileSize);
+    let row = Math.floor(y/this.tileSize);
+    return({row: row, col: col})
+  }
+  collisionByLoc(x, y){
+    let gridPos = this.getGridByCoords(x, y);
+    return this.getCollision(this.tileType(gridPos.col, gridPos.row));
   }
   render(ctx, colorScheme){
     for(let c=0; c<this.cols; c++){
       for(let r=0; r<this.rows; r++){
-        let tileType = this.getTile(c, r)
+        let tileType = this.tileType(c, r)
         let imgPos = this.getTileSheetPos(tileType)
         ctx.fillStyle= colorScheme[this.getColor(tileType)];
         ctx.fillRect(c*this.tileSize, r*this.tileSize, this.tileSize, this.tileSize)
@@ -104,8 +118,8 @@ export class Map {
     position.y = position.row*17;
     return position;
   }
-  getCollision(row, col){
-    switch(getTile(row, column)){
+  getCollision(tile){
+    switch(tile){
       case 0, 1:
         return false;
       case 2, 3:
@@ -113,48 +127,3 @@ export class Map {
     }
   }
 }
-
-// class Tile {
-//   constructor(col, row, img=null, color="#FF0000",type=null){
-//     this.col = col;
-//     this.row = row;
-//     this.img = img;
-//     this.color = color;
-//     this.type = type;
-//     this.zIndex = 0;
-//     this.collision = false;
-//   }
-// }
-//
-// export default class TileMap {
-//   constructor(width, height, text=null){
-//     this.colSize = width/MAPSIZE.cols;
-//     this.rowSize = height/MAPSIZE.rows;
-//     this.tiles = []
-//     if(this.text){
-//       this.createFromText(text)
-//     } else {
-//       this.createEmpty()
-//     }
-//   }
-//   createEmpty(){
-//     for(var i=0; i<MAPSIZE.rows; i++){
-//       for(var j=0; j<MAPSIZE.cols; j++){
-//         this.tiles.push(new Tile(i, j))
-//       }
-//     }
-//   }
-//   createFromText(text){
-//
-//   }
-//   getCoords(tile){
-//     let x = tile.col*this.colSize;
-//     let y = tile.row*this.rowSize;
-//     return {x: x, y: y};
-//   }
-//   getMapLoc(obj){
-//     let col = Math.floor(obj.x / this.colSize);
-//     let row = Math.floor(obj.y / this.rowSize);
-//     return {col: col, row: row}
-//   }
-// }

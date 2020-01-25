@@ -12,11 +12,12 @@ export default class Player {
     this.xSpeed = 0;
     this.ySpeed = 0;
   }
-  update(delta, input){
-    this.move(input);
+  update(delta, input, map){
+    this.control(input)
+    this.move(map);
     this.sprite.update(delta);
   }
-  move(input){
+  control(input){
     this.xSpeed = 0;
     this.ySpeed = 0;
 
@@ -48,8 +49,20 @@ export default class Player {
         this.sprite.currentAnimation = 3;
       }
     }
+
+  }
+  move(map){
+    if(map.collisionByLoc(this.x + this.xSpeed,this.y + this.ySpeed)){
+      return;
+
+    }
+
     this.x += this.xSpeed;
     this.y += this.ySpeed;
+  }
+  moveTo(loc){
+    this.x = loc.x;
+    this.y = loc.y;
   }
   createSprite(spriteSheet, rows, cols, width, height){
     this.scale = this.width / width;
@@ -60,11 +73,11 @@ export default class Player {
       ctx.strokeStyle = "#FF0000";
       ctx.strokeRect(x, y, this.width, this.height)
     }else{
-      if(this.xSpeed == 0 && this.ySpeed == 0){
+      // if(this.xSpeed == 0 && this.ySpeed == 0){
         this.sprite.drawStill(ctx, x, y, this.scale)
-      } else {
-        this.sprite.animate(ctx, x, y, this.scale)
-      }
+      // } else {
+      //   this.sprite.animate(ctx, x, y, this.scale)
+      // }
     }
 
   }

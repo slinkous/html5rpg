@@ -12,7 +12,8 @@ export default class Sprite{
   }
   drawStill(ctx, x, y, scale=1){
     this.currentFrame = 0;
-    ctx.drawImage(this.spriteSheet, this.currentFrame*this.width, this.currentAnimation*this.height, this.width, this.height, x, y, this.width*scale, this.height*scale)
+    // ctx.drawImage(this.spriteSheet, this.currentFrame*this.width, this.currentAnimation*this.height, this.width, this.height, x, y, this.width*scale, this.height*scale)
+    ctx.drawImage(this.spriteSheet, 0, 0, this.width, this.height, x, y, this.width*scale, this.height*scale)
   }
   animate(ctx, x, y, scale=1){
     ctx.drawImage(this.spriteSheet, this.currentFrame*this.width, this.currentAnimation*this.height, this.width, this.height, x, y, this.width*scale, this.height*scale)
