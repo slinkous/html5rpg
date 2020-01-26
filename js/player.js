@@ -1,7 +1,7 @@
 import Sprite from './sprite.js';
 
 export default class Player {
-  constructor(game, x=0, y=0, width=32, height=32, speed=1){
+  constructor(game, x=0, y=0, width=32, height=32, speed=5){
     this.x = x;
     this.y = y;
     this.width = width;
@@ -52,9 +52,17 @@ export default class Player {
 
   }
   move(map){
-    if(map.collisionByLoc(this.x + this.xSpeed,this.y + this.ySpeed)){
+    if(this.xSpeed > 0 && map.collisionByLoc(this.x + this.width + this.xSpeed,this.y)){
       return;
-
+    }
+    if(this.xSpeed < 0 && map.collisionByLoc(this.x +  this.xSpeed, this.y)){
+      return;
+    }
+    if(this.ySpeed > 0 && map.collisionByLoc(this.x, this.y + this.height + this.ySpeed)){
+      return;
+    }
+    if(this.ySpeed < 0 && map.collisionByLoc(this.x, this.y + this.ySpeed)){
+      return;
     }
 
     this.x += this.xSpeed;
