@@ -1,5 +1,7 @@
 import Sprite from './sprite.js';
 
+let playerImg = document.querySelector('#playersprite');
+
 export default class Player {
   constructor(game, x=0, y=0, width=32, height=32, speed=5){
     this.x = x;
@@ -11,6 +13,10 @@ export default class Player {
     this.direction = "right";
     this.xSpeed = 0;
     this.ySpeed = 0;
+    this.sprite = this.createSprite(playerImg, 16, 16, 1);
+    this.sprite.createAnimation("run", [1, 2]);
+    this.sprite.reSize(2);
+    this.sprite.setAnimation("run")
   }
   update(delta, input, map){
     this.control(input)
@@ -72,20 +78,20 @@ export default class Player {
     this.x = loc.x;
     this.y = loc.y;
   }
-  createSprite(spriteSheet, rows, cols, width, height){
-    this.scale = this.width / width;
-    this.sprite = new Sprite(spriteSheet, rows, cols, width, height);
+  createSprite(spriteSheet, width, height, spacing, callback){
+    return new Sprite(spriteSheet, width, height, spacing);
+
   }
   draw(ctx, x=this.x, y=this.y){
     if(!this.sprite){
       ctx.strokeStyle = "#FF0000";
       ctx.strokeRect(x, y, this.width, this.height)
     }else{
-      // if(this.xSpeed == 0 && this.ySpeed == 0){
+      if(this.xSpeed == 0 && this.ySpeed == 0){
         this.sprite.drawStill(ctx, x, y, this.scale)
-      // } else {
-      //   this.sprite.animate(ctx, x, y, this.scale)
-      // }
+      } else {
+        this.sprite.animate(ctx, x, y, this.scale)
+      }
     }
 
   }

@@ -19,9 +19,10 @@ export class Game {
     // this.music.loop = true;
     this.gameObjects = [];
     this.input = new InputHandler(this);
-    let playerImg = document.querySelector('#playersprite');
+
+
     this.player = new Player(this)
-    this.player.createSprite(playerImg, 1, 3, 16, 16)
+    
     this.map = new Map(map1);
     this.player.moveTo(this.map.getCoordsbyGrid(8, 15))
   }

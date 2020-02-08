@@ -1,29 +1,69 @@
 export default class Sprite{
-  constructor(spriteSheet, rows, cols, width, height, framesPerSecond = 5){
+  constructor(spriteSheet, width, height, spacing=0){
     this.spriteSheet = spriteSheet;
-    this.rows = rows;
-    this.cols = cols;
     this.width = width;
     this.height = height;
-    this.framesPerSecond = framesPerSecond;
-    this.timeSinceRedraw = 0
-    this.currentAnimation = 0;
+    this.spacing = {
+      unit: spacing,
+      xLead: false,
+      yLead: false
+    }
+    this.calibrateSpacing();
+    this.rows = Math.floor(spriteSheet.naturalHeight/(height+spacing));
+    this.cols = Math.floor(spriteSheet.naturalWidth/(width+spacing));
+    this.timeSinceRedraw = 0;
+    this.currentAnimation = [];
     this.currentFrame = 0;
+    this.scale = 1;
+    this.animations = {};
   }
-  drawStill(ctx, x, y, scale=1){
+  calibrateSpacing(){
+    let sheetW = this.spriteSheet.naturalWidth;
+    if(sheetW % (this.width + this.spacing.unit) == 1) this.spacing.xLead = true;
+
+    let sheetH = this.spriteSheet.naturalHeight;
+    if(sheetH % (this.height + this.spacing.unit) == 1) this.spacing.yLead = true;
+  }
+  createAnimation(name, indices){
+    this.animations[name] = [...indices];
+  };
+  setAnimation(name){
+    this.currentAnimation = this.animations[name];
+  }
+  getIndex(row, col){
+    return(row*this.cols + col)
+  }
+  getRowCol(index){
+    return({row: Math.floor(index/this.cols), col: index % this.cols})
+  }
+  getCoords(index){
+    let x = (index % this.cols)*(this.width+this.spacing.unit) + this.spacing.xLead ? 1 : 0;
+    let y =  Math.floor(index/this.cols)*(this.height+this.spacing.unit) + this.spacing.yLead ? 1 : 0;
+
+    return({y: y, x: x})
+  }
+  drawStill(ctx, x, y){
     this.currentFrame = 0;
-    // ctx.drawImage(this.spriteSheet, this.currentFrame*this.width, this.currentAnimation*this.height, this.width, this.height, x, y, this.width*scale, this.height*scale)
-    ctx.drawImage(this.spriteSheet, 0, 0, this.width, this.height, x, y, this.width*scale, this.height*scale)
+
+    let pos = this.getCoords(this.currentAnimation[this.currentFrame]);
+
+    ctx.drawImage(this.spriteSheet, pos.x, pos.y, this.width, this.height, x, y, this.width*this.scale, this.height*this.scale)
   }
-  animate(ctx, x, y, scale=1){
-    ctx.drawImage(this.spriteSheet, this.currentFrame*this.width, this.currentAnimation*this.height, this.width, this.height, x, y, this.width*scale, this.height*scale)
+  animate(ctx, x, y){
+
+      let pos = getCoords(this.currentAnimation[this.currentFrame]);
+
+    ctx.drawImage(this.spriteSheet, pos.x, pos.y, this.width, this.height, x, y, this.width*this.scale, this.height*this.scale)
   }
   update(delta){
     this.timeSinceRedraw += delta;
     if(this.timeSinceRedraw/1000 >= 1/this.framesPerSecond){
       this.currentFrame++
-      this.currentFrame %= this.cols;
+      this.currentFrame %= this.currentAnimation.length;
       this.timeSinceRedraw = 0;
     }
+  }
+  reSize(scale){
+    this.scale = scale;
   }
 }
