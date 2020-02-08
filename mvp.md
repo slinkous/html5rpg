@@ -8,6 +8,10 @@ Our demo for the game will allow an immediate jump into the exploration of a for
 
 - 4 direction movement
 - 2 different conflict management strategies?
+  - ribbit?
+  - hold still
+  - grab
+  - not offer food (yet)
 - health property
 
 ## NPC/enemies
