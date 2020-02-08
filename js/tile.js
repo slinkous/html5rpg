@@ -42,6 +42,7 @@ export class Map {
   getGridByCoords(x, y){
     let col = Math.floor(x/this.tileSize);
     let row = Math.floor(y/this.tileSize);
+    // console.log(({row: row, col: col}))
     return({row: row, col: col})
   }
   collisionByLoc(x, y){

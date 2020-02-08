@@ -22,7 +22,7 @@ export class Game {
 
 
     this.player = new Player(this)
-    
+
     this.map = new Map(map1);
     this.player.moveTo(this.map.getCoordsbyGrid(8, 15))
   }
@@ -41,9 +41,9 @@ export class Game {
       this.gamestate === GAMESTATE.GAMEOVER
     ) return;
     this.input.update();
-
-    this.player.control(this.input.inputStates);
-    this.player.move(this.map);
+    this.player.update(deltaTime, this.input.inputStates, this.map);
+    // this.player.control(this.input.inputStates);
+    // this.player.move(this.map);
 
   }
   draw(ctx, colorScheme, font){
